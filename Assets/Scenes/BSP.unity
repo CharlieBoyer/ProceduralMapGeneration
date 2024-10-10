@@ -169,6 +169,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseTile: {fileID: 11400000, guid: efd9a90812f3434438df8f677dc5bf36, type: 2}
+  _seed: 1111
+  _depth: 5
+  _rasterWidth: 30
+  _rasterHeight: 18
+  _minRange: 0.2
+  _maxRange: 0.8
+  _startingDirection: 0
 --- !u!483693784 &80729062
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -372,57 +379,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1392981636
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1392981638}
-  - component: {fileID: 1392981637}
-  m_Layer: 0
-  m_Name: BSP
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1392981637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392981636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4152418f786b4e2da966741726c078bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rasterWidth: 30
-  _rasterHeight: 18
-  _seed: 1111
-  _rangeMin: 0.2
-  _rangeMax: 0.8
-  _depth: 5
-  _startingDir: 0
---- !u!4 &1392981638
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392981636}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1597992608
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,5 +429,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1597992610}
-  - {fileID: 1392981638}
   - {fileID: 987934267}
