@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,6 +24,7 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
     [SerializeField] private float _maxRange = .8f;
 
     private Tilemap _tilemap;
+    private List<Room> _currentShownRaster;
 
     private void Awake()
     {
@@ -33,6 +35,16 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
     {
         // GenerateTilemapBase(_rasterWidth, _rasterHeight);
         GenerateTilemapRooms();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_currentShownRaster == null) return;
+        
+        foreach (Room room in _currentShownRaster)
+        {
+            Gizmos.DrawSphere(room.Center, 0.2f);
+        }
     }
 
     [ContextMenu("Generate Map")]
@@ -62,6 +74,8 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
         Vector3Int[] positions = new Vector3Int[rasterSize.x * rasterSize.y];
         TileBase[] tiles = new TileBase[rasterSize.x * rasterSize.y];
 
+        _currentShownRaster = raster;
+        
         foreach (Room room in raster)
         {
             for (int indexWidth = 0; indexWidth < room.Width; indexWidth++)

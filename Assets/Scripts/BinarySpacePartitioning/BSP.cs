@@ -76,7 +76,6 @@ namespace BinarySpacePartitioning
             Room roomA;
             Room roomB;
             
-            
             if (dir == Slice.Direction.Vertical)
             {
                 int cutPoint = _generator.Next(Mathf.FloorToInt(roomToSlice.Width * _rangeMin), Mathf.FloorToInt(roomToSlice.Width * _rangeMax) + 1); // Next() max value is exclusive
