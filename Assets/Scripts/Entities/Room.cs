@@ -19,6 +19,7 @@ namespace Entities
             Height = height;
             Origin = origin;
             Center = new Vector2(Origin.x + Width / 2f, Origin.y + Height / 2f);
+            Size = Width * Height;
             
             Color = Random.ColorHSV();
         }

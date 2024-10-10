@@ -170,12 +170,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseTile: {fileID: 11400000, guid: efd9a90812f3434438df8f677dc5bf36, type: 2}
   _seed: 1111
+  _mode: 1
+  _sliceMode: 1
+  _startingDirection: 0
   _depth: 5
   _rasterWidth: 30
   _rasterHeight: 18
   _minRange: 0.2
   _maxRange: 0.8
-  _startingDirection: 0
 --- !u!483693784 &80729062
 TilemapRenderer:
   m_ObjectHideFlags: 0

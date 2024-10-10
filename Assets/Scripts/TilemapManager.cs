@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 using Internal;
-using BinarySpacePartitioning;
 using Entities;
-using UnityEditor;
+using BinarySpacePartitioning;
 
 public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
 {
@@ -15,12 +13,14 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
 
     [Header("BSP Generator")]
     [SerializeField] private int _seed;
+    [SerializeField] private BSP.Mode _mode = BSP.Mode.Random;
+    [SerializeField] private Slice.Mode _sliceMode;
+    [SerializeField] private Slice.Direction _startingDirection;
     [SerializeField] private int _depth;
     [SerializeField] private int _rasterWidth;
     [SerializeField] private int _rasterHeight;
     [SerializeField] private float _minRange = .2f;
     [SerializeField] private float _maxRange = .8f;
-    [SerializeField] private Intersect _startingDirection;
 
     private Tilemap _tilemap;
 
@@ -35,24 +35,12 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
         GenerateTilemapRooms();
     }
 
-    public void GenerateTilemapBase(int width, int height)
+    [ContextMenu("Generate Map")]
+    public void GenerateMap()
     {
-        Vector3Int[] surface = new Vector3Int[width * height];
-        TileBase[] tiles = new TileBase[width * height];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                int index = x * height + y;
-                surface[index] = new Vector3Int(x, y, 1);
-                tiles[index] = _baseTile;
-            }
-        }
-        
-        _tilemap.SetTiles(surface, tiles);
+        GenerateTilemapRooms();
     }
-
+    
     public void GenerateTilemapRooms(List<Room> rooms = null)
     {
         BSP.Init(_seed, _minRange, _maxRange);
@@ -60,11 +48,9 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
         List<Room> finalRaster;
 
         if (rooms == null)
-            finalRaster = BSP.Generate(_rasterWidth, _rasterHeight, _depth, _startingDirection);
+            finalRaster = BSP.Generate(_mode, _rasterWidth, _rasterHeight, _depth, _sliceMode, _startingDirection);
         else
-            finalRaster = BSP.Generate(rooms, _depth, _startingDirection);
-        
-        Debug.Log($"Debug raster: {finalRaster}");
+            finalRaster = BSP.Generate(_mode, rooms, _depth, _sliceMode, _startingDirection);
         
         DrawRasterToTilemap(finalRaster);
     }
@@ -91,12 +77,13 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
                 }
             }
             
-            // _tilemap.SetTiles(positions, tiles); // Should replace individual calls to SetTile
+            // _tilemap.SetTiles(positions, tiles); // Should replace individual calls to SetTile()
         }
     }
 
     private void UpdateTileColors(TileBase[] tiles)
     {
-        
-    } // Should replace tiles colors in bulk
+        // Should replace tiles colors in bulk and disable LockTile flag
+        throw new System.NotImplementedException();
+    }
 }

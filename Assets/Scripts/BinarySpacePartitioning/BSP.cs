@@ -7,10 +7,10 @@ using Entities;
 
 namespace BinarySpacePartitioning
 {
-    public enum Intersect { Vertical, Horizontal }
-    
     public static class BSP
     {
+        public enum Mode { Random, Biggest }
+        
         public static bool Initialized { get; private set; }
         
         private static Random _generator;
@@ -31,7 +31,7 @@ namespace BinarySpacePartitioning
             Initialized = true;
         }
 
-        public static List<Room> Generate(List<Room> raster, int depth, Intersect startingDir = Intersect.Vertical) // cutNumber = depth;
+        public static List<Room> Generate(Mode mode, List<Room> raster, int depth, Slice.Mode sliceMode, Slice.Direction sliceDir)
         {
             if (!Initialized)
                 throw new Exception("BSP Generator need to be initialized before starting to Generate()");
@@ -41,16 +41,17 @@ namespace BinarySpacePartitioning
             
             if (depth <= 0) return raster; // End recursion
 
-            Room selectedRoom = raster[_generator.Next(raster.Count)];
-            raster.Remove(selectedRoom);
-            
-            Slice(raster, selectedRoom, startingDir);
-            Generate(raster, depth - 1, (startingDir == Intersect.Vertical) ? Intersect.Horizontal : Intersect.Vertical);
+            Room roomToProcess = SelectRoom(mode, raster);
+            raster.Remove(roomToProcess);
+            SliceRoom(raster, roomToProcess, sliceDir);
+
+            Slice.Direction nextSliceDir = GetNextSliceDirection(sliceMode, sliceDir, roomToProcess);
+            Generate(mode, raster, depth - 1, sliceMode, nextSliceDir);
             
             return raster;
         }
 
-        public static List<Room> Generate(int rasterWidth, int rasterHeight, int depth, Intersect startingDir = Intersect.Vertical)
+        public static List<Room> Generate(Mode mode, int rasterWidth, int rasterHeight, int depth, Slice.Mode sliceMode, Slice.Direction sliceDir)
         {
             if (!Initialized)
                 throw new Exception("BSP Generator need to be initialized before starting to Generate()");
@@ -58,35 +59,37 @@ namespace BinarySpacePartitioning
             if (!HasInternalRaster)
                 _internalRaster = new List<Room> { new Room(rasterWidth, rasterHeight, new Vector2Int(0, 0)) };
             
-            Room selectedRoom = _internalRaster[_generator.Next(_internalRaster.Count)];
-            _internalRaster.Remove(selectedRoom);
+            Room roomToProcess = SelectRoom(mode, _internalRaster);
+            _internalRaster.Remove(roomToProcess);
+            SliceRoom(_internalRaster, roomToProcess, sliceDir);
             
-            Slice(_internalRaster, selectedRoom, startingDir);
-            Generate(_internalRaster,  depth - 1, (startingDir == Intersect.Vertical) ? Intersect.Horizontal : Intersect.Vertical);
+            Slice.Direction nextSliceDir = GetNextSliceDirection(sliceMode, sliceDir, roomToProcess);
+            Generate(mode, _internalRaster,  depth - 1, sliceMode, nextSliceDir);
 
             List<Room> results = new (_internalRaster);
             _internalRaster = null;
             return results;
         }
         
-        private static void Slice(List<Room> raster, Room room, Intersect direction)
+        private static void SliceRoom(List<Room> raster, Room roomToSlice, Slice.Direction dir)
         {
             Room roomA;
             Room roomB;
             
-            if (direction == Intersect.Vertical)
+            
+            if (dir == Slice.Direction.Vertical)
             {
-                int cutPoint = _generator.Next(Mathf.FloorToInt(room.Width * _rangeMin), Mathf.FloorToInt(room.Width * _rangeMax) + 1); // Next() max value is exclusive
+                int cutPoint = _generator.Next(Mathf.FloorToInt(roomToSlice.Width * _rangeMin), Mathf.FloorToInt(roomToSlice.Width * _rangeMax) + 1); // Next() max value is exclusive
                 
-                roomA = new Room(cutPoint, room.Height, room.Origin);
-                roomB = new Room(room.Width - cutPoint, room.Height, new Vector2Int(room.Origin.x + cutPoint, room.Origin.y));
+                roomA = new Room(cutPoint, roomToSlice.Height, roomToSlice.Origin);
+                roomB = new Room(roomToSlice.Width - cutPoint, roomToSlice.Height, new Vector2Int(roomToSlice.Origin.x + cutPoint, roomToSlice.Origin.y));
             }
             else
             {
-                int cutPoint = _generator.Next(Mathf.FloorToInt(room.Height * _rangeMin), Mathf.FloorToInt(room.Height * _rangeMax) + 1); // Next() max value is exclusive
+                int cutPoint = _generator.Next(Mathf.FloorToInt(roomToSlice.Height * _rangeMin), Mathf.FloorToInt(roomToSlice.Height * _rangeMax) + 1); // Next() max value is exclusive
                 
-                roomA = new Room(room.Width, cutPoint, room.Origin);
-                roomB = new Room(room.Width, room.Height - cutPoint, new Vector2Int(room.Origin.x, room.Origin.y + cutPoint));
+                roomA = new Room(roomToSlice.Width, cutPoint, roomToSlice.Origin);
+                roomB = new Room(roomToSlice.Width, roomToSlice.Height - cutPoint, new Vector2Int(roomToSlice.Origin.x, roomToSlice.Origin.y + cutPoint));
             }
             
             raster.Add(roomA);
@@ -114,6 +117,38 @@ namespace BinarySpacePartitioning
             return new Vector2Int(width, height);
         }
 
+        private static Room SelectRoom(BSP.Mode mode, List<Room> raster)
+        {
+            Room selectedRoom;
+            
+            switch (mode)
+            {
+                case Mode.Biggest:
+                    selectedRoom = raster[0];
+                    foreach (Room room in raster) {
+                        if (room.Size > selectedRoom.Size)
+                            selectedRoom = room;
+                    }
+                    break;
+                default: // Use Mode.Random
+                    selectedRoom = _internalRaster[_generator.Next(_internalRaster.Count)];
+                    break;
+            }
+
+            return selectedRoom;
+        }
+        
+        private static Slice.Direction GetNextSliceDirection(Slice.Mode mode, Slice.Direction current, Room selectedRoom)
+        {
+            switch (mode)
+            {
+               case Slice.Mode.Perpendicular:
+                   return selectedRoom.Width > selectedRoom.Height ? Slice.Direction.Vertical : Slice.Direction.Horizontal;
+               default: // Slice.Mode.Alternate
+                   return (current == Slice.Direction.Vertical) ? Slice.Direction.Horizontal : Slice.Direction.Vertical;
+            }
+        }
+        
         #endregion
     }
 }
