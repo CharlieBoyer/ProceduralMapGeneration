@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 using Internal;
 using Entities;
-using BinarySpacePartitioning;
 
-public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
+public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
 {
     [Header("Tile management")]
     [SerializeField] private TileBase _baseTile;
@@ -22,10 +20,14 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
     [SerializeField] private int _rasterHeight;
     [SerializeField] private float _minRange = .2f;
     [SerializeField] private float _maxRange = .8f;
-
+    
     private Tilemap _tilemap;
     private List<Room> _currentShownRaster;
-
+    
+    // Super triangle draw Test
+    private Triangle _superTriangle;
+    private List<Vector2> _points = new();
+    
     private void Awake()
     {
         _tilemap = GetComponent<Tilemap>();
@@ -40,11 +42,17 @@ public class TilemapManager : SingletonMonoBehaviour<TilemapManager>
     private void OnDrawGizmos()
     {
         if (_currentShownRaster == null) return;
-        
+
+        List<Vector2> points = new();
+            
         foreach (Room room in _currentShownRaster)
         {
             Gizmos.DrawSphere(room.Center, 0.2f);
+            points.Add(room.Center);
         }
+        
+        Triangle superTriangle = Triangle.SuperTriangle(points);
+        superTriangle.DrawGizmos();
     }
 
     [ContextMenu("Generate Map")]
