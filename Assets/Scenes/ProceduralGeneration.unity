@@ -169,13 +169,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseTile: {fileID: 11400000, guid: efd9a90812f3434438df8f677dc5bf36, type: 2}
-  _seed: 0
+  _seed: 2222
   _mode: 1
   _sliceMode: 1
   _startingDirection: 0
-  _depth: 5
-  _rasterWidth: 20
-  _rasterHeight: 40
+  _depth: 30
+  _rasterWidth: 50
+  _rasterHeight: 50
   _minRange: 0.2
   _maxRange: 0.8
 --- !u!483693784 &80729062

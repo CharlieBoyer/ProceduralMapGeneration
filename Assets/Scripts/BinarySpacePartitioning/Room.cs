@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entities
+namespace BinarySpacePartitioning
 {
     public class Room
     {
