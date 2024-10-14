@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace DelaunayTriangulation.Data
@@ -65,28 +66,20 @@ namespace DelaunayTriangulation.Data
                 new Edge(C, A)
             };
         }
-        public Triangle(Triangle copy)
-        {
-            A = copy.A;
-            B = copy.B;
-            C = copy.C;
-            Circumcircle = new Circumcircle(this);
-            Edges = new List<Edge>
-            {
-                new Edge(A, B),
-                new Edge(B, C),
-                new Edge(C, A)
-            };
-        }
 
-        public void DrawGizmos(float vertexSize)
+        public void DrawGizmos(float vertexSize, Color edgeColor, Color circumcircleColor)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = edgeColor;
             Gizmos.DrawLine(A.WorldPosition, B.WorldPosition);
             Gizmos.DrawLine(B.WorldPosition, C.WorldPosition);
             Gizmos.DrawLine(C.WorldPosition, A.WorldPosition);
 
-            Gizmos.color = Color.blue;
+            Handles.color = circumcircleColor;
+            Gizmos.color = circumcircleColor;
+            Handles.DrawWireDisc(Circumcircle.Center.WorldPosition, Vector3.forward, Circumcircle.Radius);
+            Gizmos.DrawSphere(Circumcircle.Center.WorldPosition, vertexSize/2f);
+            
+            Gizmos.color = Color.black;
             Gizmos.DrawSphere(A.WorldPosition, vertexSize);
             Gizmos.DrawSphere(B.WorldPosition, vertexSize);
             Gizmos.DrawSphere(C.WorldPosition, vertexSize);

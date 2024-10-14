@@ -5,14 +5,14 @@ namespace DelaunayTriangulation.Data
     public class Circumcircle
     {
         private Triangle _triangle;
-        private Vertex _center;
-        private float _radius;
+        public Vertex Center { get; private set; }
+        public float Radius{ get; private set; }
         
         public Circumcircle(Triangle triangle)
         {
             _triangle = triangle;
-            _center = ComputeCenter();
-            _radius = ComputeRadius();
+            Center = ComputeCenter();
+            Radius = ComputeRadius();
         }
         
         public Circumcircle() {}
@@ -37,12 +37,12 @@ namespace DelaunayTriangulation.Data
 
         private float ComputeRadius()
         {
-            return _center.Distance(_triangle.A);
+            return Center.Distance(_triangle.A);
         }
         
         public bool IsInside(Vertex point)
         {
-            return _center.Distance(point) <= _radius;
+            return Center.Distance(point) <= Radius;
         }
     }
 }

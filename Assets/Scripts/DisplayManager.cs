@@ -44,8 +44,8 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
         if (_bspRaster == null) return;
         
         Triangle superTriangle = Triangle.SuperTriangle(_rasterPoints);
-        superTriangle.DrawGizmos(0.4f);
-        DT.DrawGizmos(_delaunayMesh, 0.4f);
+        superTriangle.DrawGizmos(0.4f, Color.magenta, Color.magenta);
+        DT.DrawGizmos(_delaunayMesh, 0.4f, Color.red, Color.cyan);
     }
     
     [ContextMenu("Generate Map")]

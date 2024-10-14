@@ -57,12 +57,11 @@ namespace DelaunayTriangulation
             return triangulation;
         }
         
-        public static void DrawGizmos(List<Triangle> triangulation, float vertexSize)
+        public static void DrawGizmos(List<Triangle> triangulation, float vertexSize, Color edgeColor, Color circumcircleColor)
         {
-            Gizmos.color = Color.red;
             foreach (Triangle triangle in triangulation)
             {
-                triangle.DrawGizmos(vertexSize);
+                triangle.DrawGizmos(vertexSize, edgeColor, circumcircleColor);
             }
         }
     }
