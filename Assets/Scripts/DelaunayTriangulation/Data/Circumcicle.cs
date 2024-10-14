@@ -15,8 +15,6 @@ namespace DelaunayTriangulation.Data
             Radius = ComputeRadius();
         }
         
-        public Circumcircle() {}
-        
         private Vertex ComputeCenter()
         {
             Vertex v1 = _triangle.A;
@@ -42,7 +40,7 @@ namespace DelaunayTriangulation.Data
         
         public bool IsInside(Vertex point)
         {
-            return Center.Distance(point) <= Radius;
+            return Center.Distance(point) < Radius;
         }
     }
 }

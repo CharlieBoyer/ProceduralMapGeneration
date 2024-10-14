@@ -173,7 +173,7 @@ MonoBehaviour:
   _mode: 1
   _sliceMode: 1
   _startingDirection: 0
-  _depth: 5
+  _depth: 3
   _rasterWidth: 30
   _rasterHeight: 30
   _minRange: 0.2

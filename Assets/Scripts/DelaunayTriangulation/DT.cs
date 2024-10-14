@@ -41,8 +41,11 @@ namespace DelaunayTriangulation
                 }
 
                 foreach (Triangle tri in badTriangles.ToList())
+                {
                     badTriangles.Remove(tri);
-
+                    triangulation.Remove(tri);
+                }
+                
                 foreach (Edge edge in polygon)
                     triangulation.Add(new Triangle(edge, point));
             }
