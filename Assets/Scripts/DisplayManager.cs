@@ -4,7 +4,9 @@ using UnityEngine.Tilemaps;
 
 using Internal;
 using BinarySpacePartitioning;
+using BinarySpacePartitioning.Data;
 using DelaunayTriangulation;
+using DelaunayTriangulation.Data;
 
 public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
 {

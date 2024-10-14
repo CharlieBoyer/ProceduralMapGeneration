@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
+using BinarySpacePartitioning.Data;
+
 namespace BinarySpacePartitioning
 {
     public static class BSP

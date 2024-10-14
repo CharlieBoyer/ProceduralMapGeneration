@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DelaunayTriangulation
+namespace DelaunayTriangulation.Data
 {
     public readonly struct Edge : IEquatable<Edge>
     {

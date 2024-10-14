@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DelaunayTriangulation
+namespace DelaunayTriangulation.Data
 {
     public readonly struct Vertex : IEquatable<Vertex>
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace DelaunayTriangulation
+namespace DelaunayTriangulation.Data
 {
     public class Triangle
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DelaunayTriangulation
+namespace DelaunayTriangulation.Data
 {
     public class Circumcircle
     {
