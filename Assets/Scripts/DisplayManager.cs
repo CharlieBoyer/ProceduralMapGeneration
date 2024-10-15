@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-using Internal;
+using Utils;
 using BinarySpacePartitioning;
 using BinarySpacePartitioning.Data;
 using DelaunayTriangulation;
@@ -43,16 +43,20 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
     {
         if (_bspRaster == null) return;
         
-        Triangle superTriangle = Triangle.SuperTriangle(_rasterPoints);
-        superTriangle.DrawGizmos(0.4f, Color.magenta, Color.magenta);
-        DT.DrawGizmos(_delaunayMesh, 0.4f, Color.red, Color.cyan);
+        // Triangle superTriangle = Triangle.SuperTriangle(_rasterPoints);
+        // superTriangle.DrawGizmos(0.4f, Color.magenta, Color.magenta); 
+        // DT.DrawGizmos(_delaunayMesh, 0.4f, Color.red, Color.cyan);
     }
     
     [ContextMenu("Generate Map")]
     public void GenerateMap()
     {
         _bspRaster = GenerateTilemapRooms();
-        _delaunayMesh = DT.Triangulate(_rasterPoints);
+        foreach (Vertex point in _rasterPoints)
+            Debug.Log("Point: " + point.WorldPosition);
+        
+        // _delaunayMesh = DT.Triangulate(_rasterPoints);
+        DT_Async.Instance.Triangulate(_rasterPoints);
     }
 
     #region Tilemap

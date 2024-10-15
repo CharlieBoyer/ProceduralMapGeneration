@@ -15,6 +15,11 @@ namespace DelaunayTriangulation
     {
         public static List<Triangle> Triangulate(List<Vertex> points)
         {
+            return BowyerWatsonIncremental(points);
+        }
+
+        private static List<Triangle> BowyerWatsonIncremental(List<Vertex> points)
+        {
             List<Triangle> triangulation = new();
             Triangle superTriangle = Triangle.SuperTriangle(points);
         
@@ -59,7 +64,7 @@ namespace DelaunayTriangulation
 
             return triangulation;
         }
-        
+
         public static void DrawGizmos(List<Triangle> triangulation, float vertexSize, Color edgeColor, Color circumcircleColor)
         {
             foreach (Triangle triangle in triangulation)

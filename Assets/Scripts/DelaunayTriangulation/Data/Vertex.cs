@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DelaunayTriangulation.Data
 {
-    public readonly struct Vertex : IEquatable<Vertex>
+    public class Vertex : IEquatable<Vertex>
     {
         public readonly float X;
         public readonly float Y;
@@ -14,12 +14,12 @@ namespace DelaunayTriangulation.Data
             X = positions.x;
             Y = positions.y;
         }
-        
         public Vertex(float x, float y)
         {
             X = x;
             Y = y;
         }
+        public Vertex() {}
         
         public float Distance(Vertex other)
         {
@@ -38,7 +38,7 @@ namespace DelaunayTriangulation.Data
 
         public bool Equals(Vertex other)
         {
-            return X.Equals(other.X) && Y.Equals(other.Y);
+            return other != null && X.Equals(other.X) && Y.Equals(other.Y);
         }
 
         public override int GetHashCode()
