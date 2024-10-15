@@ -26,6 +26,11 @@ namespace DelaunayTriangulation.Data
             return Mathf.Sqrt(Mathf.Pow(X - other.X, 2) + Mathf.Pow(Y - other.Y, 2));
         }
         
+        public bool IsInsideCircumcircle(Triangle triangle)
+        {
+            return triangle.Circumcircle.IsInside(this);
+        }
+        
         public override bool Equals(object obj)
         {
             if (obj is Vertex other)

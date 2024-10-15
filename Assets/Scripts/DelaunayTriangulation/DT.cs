@@ -55,12 +55,7 @@ namespace DelaunayTriangulation
                     triangulation.Add(new Triangle(edge, point));
             }
 
-
-            foreach (Triangle triangle in triangulation.ToList())
-            {
-                if (triangle.ContainsSuperTriangleVertex(superTriangle))
-                    triangulation.Remove(triangle);
-            }
+            Triangle.RemoveSuperTriangleVertices(triangulation, superTriangle);
 
             return triangulation;
         }

@@ -7,9 +7,9 @@ namespace DelaunayTriangulation.Data
 {
     public class Triangle
     {
-        public Vertex A;
-        public Vertex B;
-        public Vertex C;
+        public readonly Vertex A;
+        public readonly Vertex B;
+        public readonly Vertex C;
         public readonly Circumcircle Circumcircle;
         public readonly List<Edge> Edges;
         
@@ -33,11 +33,17 @@ namespace DelaunayTriangulation.Data
             return new Triangle(a, b, c);
         }
         
-        public bool ContainsSuperTriangleVertex(Triangle superTriangle)
+        public static void RemoveSuperTriangleVertices(List<Triangle> triangulation, Triangle superTriangle)
         {
-            return A.Equals(superTriangle.A) || A.Equals(superTriangle.B) || A.Equals(superTriangle.C) ||
-                   B.Equals(superTriangle.A) || B.Equals(superTriangle.B) || B.Equals(superTriangle.C) ||
-                   C.Equals(superTriangle.A) || C.Equals(superTriangle.B) || C.Equals(superTriangle.C);
+            foreach (Triangle tri in triangulation.ToList())
+            {
+                if (tri.A.Equals(superTriangle.A) || tri.A.Equals(superTriangle.B) || tri.A.Equals(superTriangle.C) ||
+                    tri.B.Equals(superTriangle.A) || tri.B.Equals(superTriangle.B) || tri.B.Equals(superTriangle.C) ||
+                    tri.C.Equals(superTriangle.A) || tri.C.Equals(superTriangle.B) || tri.C.Equals(superTriangle.C))
+                {
+                    triangulation.Remove(tri);
+                }
+            }
         }
         
         public Triangle(Vertex a, Vertex b, Vertex toInsert)
@@ -83,6 +89,11 @@ namespace DelaunayTriangulation.Data
             Gizmos.DrawSphere(A.WorldPosition, vertexSize);
             Gizmos.DrawSphere(B.WorldPosition, vertexSize);
             Gizmos.DrawSphere(C.WorldPosition, vertexSize);
+        }
+
+        public bool IsDelaunay()
+        {
+            return Circumcircle.IsInside(A) && Circumcircle.IsInside(B) && Circumcircle.IsInside(C);
         }
     }
 }
