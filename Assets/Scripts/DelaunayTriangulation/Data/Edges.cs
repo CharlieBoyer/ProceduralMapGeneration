@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DelaunayTriangulation.Data
 {
@@ -12,6 +13,12 @@ namespace DelaunayTriangulation.Data
         {
             Start = start;
             End = end;
+        }
+
+        public Edge(Vector2 a, Vector2 b)
+        {
+            Start = new Vertex(a);
+            End = new Vertex(b);
         }
         
         public bool IsSharedWith(List<Triangle> triangles, Triangle currentTriangle)
