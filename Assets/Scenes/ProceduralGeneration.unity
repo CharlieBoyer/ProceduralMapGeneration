@@ -169,15 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseTile: {fileID: 11400000, guid: efd9a90812f3434438df8f677dc5bf36, type: 2}
-  _seed: 1111
+  _seed: 2322
   _mode: 1
   _sliceMode: 1
-  _startingDirection: 0
+  _startingDirection: 1
   _depth: 5
   _rasterWidth: 30
   _rasterHeight: 30
-  _minRange: 0.2
-  _maxRange: 0.8
+  _minRange: 0.5
+  _maxRange: 0.5
+  DelaunayMeshColor: {r: 1, g: 0, b: 0, a: 1}
+  CircumcircleColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  ShowCircumcles: 0
+  VerticesSize: 0.4
 --- !u!483693784 &80729062
 TilemapRenderer:
   m_ObjectHideFlags: 0

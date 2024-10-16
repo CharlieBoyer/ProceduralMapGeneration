@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DelaunayTriangulation.Data
+namespace DelaunayTriangulation.Old.Data
 {
     public readonly struct Edge : IEquatable<Edge>
     {

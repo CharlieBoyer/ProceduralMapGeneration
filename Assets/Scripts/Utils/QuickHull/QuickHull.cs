@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using DelaunayTriangulation.Old.Data;
 using UnityEngine;
-
-using DelaunayTriangulation.Data;
 
 namespace Utils.QuickHull
 {

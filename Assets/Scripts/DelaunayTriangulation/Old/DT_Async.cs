@@ -1,17 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DelaunayTriangulation.Old.Data;
 using UnityEngine;
-
-using DelaunayTriangulation.Data;
 using Utils;
 
-namespace DelaunayTriangulation
+namespace DelaunayTriangulation.Old
 {
     public class DT_Async: SingletonMonoBehaviour<DT_Async>
     {
-        private static float _yieldTime = .25f;
+        private static float _yieldTime = .05f;
         
         private static List<Vertex> _currentSet;
         private static Vertex _currentVertex;

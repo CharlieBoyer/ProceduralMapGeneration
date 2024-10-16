@@ -1,12 +1,4 @@
-//
-// Delaunay triangulation
-// Using the Bowyer-Watson algorithm
-//
-
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
 using DelaunayTriangulation.Data;
 
 namespace DelaunayTriangulation
@@ -15,57 +7,46 @@ namespace DelaunayTriangulation
     {
         public static List<Triangle> Triangulate(List<Vertex> points)
         {
-            return BowyerWatsonIncremental(points);
+            return RawFilterTriangulation(points);
         }
-
-        private static List<Triangle> BowyerWatsonIncremental(List<Vertex> points)
-        {
-            List<Triangle> triangulation = new();
-            Triangle superTriangle = Triangle.SuperTriangle(points);
         
-            triangulation.Add(superTriangle);
-
-            foreach (Vertex point in points)
+        #region Raw-Filter triangulation
+        
+        private static List<Triangle> RawFilterTriangulation(List<Vertex> points)
+        {
+            List<Triangle> rawTriangulation = RawTriangulation(points);
+            List<Triangle> delaunayTriangulation = new();
+            
+            foreach (Triangle triangle in rawTriangulation)
             {
-                List<Triangle> badTriangles = new();
-                List<Edge> polygon = new();
+                if (triangle.IsDelaunay(points))
+                    delaunayTriangulation.Add(triangle);
+            }
 
-                foreach (Triangle triangle in triangulation)
+            return delaunayTriangulation;
+        }
+        
+        private static List<Triangle> RawTriangulation(List<Vertex> points)
+        {
+            List<Triangle> triangles = new ();
+            
+            for (int i = 0; i < points.Count; i++)
+            {
+                for (int j = i + 1; j < points.Count; j++)
                 {
-                    if (triangle.Circumcircle.IsInside(point))
-                        badTriangles.Add(triangle);
-                }
-
-                foreach (Triangle tri in badTriangles)
-                {
-                    foreach (Edge edge in tri.Edges)
+                    for (int k = j + 1; k < points.Count; k++)
                     {
-                        if (!edge.IsSharedWith(badTriangles, tri))
-                            polygon.Add(edge);
+                        Triangle triangle = new (points[i], points[j], points[k]);
+                        
+                        if (!triangles.Contains(triangle))
+                            triangles.Add(triangle);
                     }
                 }
-
-                foreach (Triangle tri in badTriangles.ToList())
-                {
-                    badTriangles.Remove(tri);
-                    triangulation.Remove(tri);
-                }
-                
-                foreach (Edge edge in polygon)
-                    triangulation.Add(new Triangle(edge, point));
             }
 
-            Triangle.RemoveSuperTriangleVertices(triangulation, superTriangle);
-
-            return triangulation;
+            return triangles;
         }
-
-        public static void DrawGizmos(List<Triangle> triangulation, float vertexSize, Color edgeColor, Color circumcircleColor)
-        {
-            foreach (Triangle triangle in triangulation)
-            {
-                triangle.DrawGizmos(vertexSize, edgeColor, circumcircleColor);
-            }
-        }
+        
+        #endregion
     }
 }

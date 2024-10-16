@@ -116,7 +116,7 @@ namespace BinarySpacePartitioning
             return new Vector2Int(width, height);
         }
 
-        private static Room SelectRoom(BSP.Mode mode, List<Room> raster)
+        private static Room SelectRoom(Mode mode, List<Room> raster)
         {
             Room selectedRoom;
             
