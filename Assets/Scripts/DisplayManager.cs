@@ -28,10 +28,12 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
     [SerializeField] private float _maxRange = .8f;
 
     [Header("Options")]
-    public Color DelaunayMeshColor = Color.red;
-    public Color CircumcircleColor = Color.grey;
-    public bool ShowCircumcles = false;
-    public float VerticesSize = 0.4f;
+    [SerializeField] private bool _useRandomRoomColors = true;
+    [SerializeField] private Color _verticeColor = Color.yellow;
+    [SerializeField] private Color _delaunayMeshColor = Color.red;
+    [SerializeField] private Color _circumcircleColor = Color.grey;
+    [SerializeField] private bool _showCircumcles = false;
+    [SerializeField] private float _verticesSize = 0.4f;
     
     private Tilemap _tilemap;
     private List<Room> _bspRaster;
@@ -60,7 +62,7 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
         if (_delaunayMesh is { Count: > 0 })
         {
             foreach (Triangle tri in _delaunayMesh)
-                tri.DrawGizmos(VerticesSize, DelaunayMeshColor, (ShowCircumcles ? CircumcircleColor : Color.clear));
+                tri.DrawGizmos(_verticesSize, _verticeColor ,_delaunayMeshColor, (_showCircumcles ? _circumcircleColor : Color.clear));
         }
     }
     
@@ -106,8 +108,11 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
         
         foreach (Room room in raster)
         {
-            centers.Add(new Vertex(room.Center));
+            float monochrome = Random.Range(0f, 1f);
+            Color roomColor = (_useRandomRoomColors ? room.Color : new Color(monochrome, monochrome, monochrome));
             
+            centers.Add(new Vertex(room.Center));
+
             for (int indexWidth = 0; indexWidth < room.Width; indexWidth++)
             {
                 for (int indexHeight = 0; indexHeight < room.Height; indexHeight++)
@@ -117,7 +122,7 @@ public class DisplayManager : SingletonMonoBehaviour<DisplayManager>
                     tiles[index] = _baseTile;
                     _tilemap.SetTile(positions[index], tiles[index]);
                     _tilemap.SetTileFlags(positions[index], TileFlags.None);
-                    _tilemap.SetColor(positions[index], room.Color);
+                    _tilemap.SetColor(positions[index], roomColor);
                 }
             }
             // _tilemap.SetTiles(positions, tiles); // Should replace individual calls to SetTile()

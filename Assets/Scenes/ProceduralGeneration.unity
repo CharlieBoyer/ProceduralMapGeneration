@@ -173,15 +173,17 @@ MonoBehaviour:
   _mode: 1
   _sliceMode: 1
   _startingDirection: 1
-  _depth: 5
+  _depth: 10
   _rasterWidth: 30
   _rasterHeight: 30
-  _minRange: 0.5
-  _maxRange: 0.5
-  DelaunayMeshColor: {r: 1, g: 0, b: 0, a: 1}
-  CircumcircleColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  ShowCircumcles: 0
-  VerticesSize: 0.4
+  _minRange: 0.2
+  _maxRange: 0.8
+  _useRandomRoomColors: 1
+  _verticeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _delaunayMeshColor: {r: 1, g: 0, b: 0, a: 1}
+  _circumcircleColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  _showCircumcles: 0
+  _verticesSize: 0.4
 --- !u!483693784 &80729062
 TilemapRenderer:
   m_ObjectHideFlags: 0

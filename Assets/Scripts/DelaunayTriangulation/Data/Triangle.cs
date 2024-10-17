@@ -65,7 +65,7 @@ namespace DelaunayTriangulation.Data
             return (a * b * c) / (4 * k);
         }
         
-        public void DrawGizmos(float vertexSize, Color edgeColor, Color circumcircleColor)
+        public void DrawGizmos(float vertexSize, Color verticeColor, Color edgeColor, Color circumcircleColor)
         {
             Gizmos.color = edgeColor;
             Gizmos.DrawLine(A.Position, B.Position);
@@ -77,7 +77,7 @@ namespace DelaunayTriangulation.Data
             Handles.DrawWireDisc(CircumCenter.Position, Vector3.forward, CircumRadius);
             Gizmos.DrawSphere(CircumCenter.Position, vertexSize/2f);
             
-            Gizmos.color = Color.black;
+            Gizmos.color = verticeColor;
             Gizmos.DrawSphere(A.Position, vertexSize);
             Gizmos.DrawSphere(B.Position, vertexSize);
             Gizmos.DrawSphere(C.Position, vertexSize);
